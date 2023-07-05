@@ -12,6 +12,17 @@ app = Dash(__name__)
 
 tips = pd.read_csv('RestaurantTips.csv')
 
+def app(environ, start_response):
+    path = environ.get('PATH_INFO')
+    if path == '/':
+        response_body = "Home Page"
+    else:
+        response_body = "A new page"
+    status = "200 OK"
+    response_headers = [("Content-Length", str(len(response_body)))]
+    start_response(status, response_headers)
+    return [response_body]
+    
 def make_correlation_heatmap():
     tips_cor = tips.corr()
 
